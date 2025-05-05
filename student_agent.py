@@ -253,12 +253,12 @@ class RainbowDQN:
             if self.counter % self.tau == 0:
                 self.update_target_network()
     def recover(self):
-        self.q_net.load_state_dict(torch.load('q_net.pth'),map_location=torch.device('cpu'))
+        self.q_net= torch.load('q_net.pth')
         self.target_net.load_state_dict(self.q_net.state_dict())
 n_frames = 4
 agent = RainbowDQN(n_frames, 12, tau=8000, gamma=0.99, lr=0.0000625, steps=4, capacity=100000, batch_size=32, n_step=5,learn_start=100000)
 agent.recover()
-#agent.q_net.eval()
+agent.q_net.eval()
 import cv2
 def convert_image(image_in):
     """
@@ -288,6 +288,7 @@ class Agent(object):
         #print(self.frames.shape)
         return agent.get_action(self.frames.copy())
 if __name__ == "__main__":
+    #torch.save(agent.q_net.cpu(), "q_net.pth")
     env = gym_super_mario_bros.make('SuperMarioBros-v0')
     env = JoypadSpace(env, COMPLEX_MOVEMENT)
     env.reset()
