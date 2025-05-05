@@ -258,7 +258,7 @@ class RainbowDQN:
 n_frames = 4
 agent = RainbowDQN(n_frames, 12, tau=8000, gamma=0.99, lr=0.0000625, steps=4, capacity=100000, batch_size=32, n_step=5,learn_start=100000)
 agent.recover()
-agent.q_net.eval()
+#agent.q_net.eval()
 import cv2
 def convert_image(image_in):
     """
@@ -295,11 +295,13 @@ if __name__ == "__main__":
     done = False
     obs = None
     student = Agent()
+    total_reward = 0
     while not done:
-        if obs is None :
+        if obs is None or random.random() < 0.01:
             action = random.randrange(12)
         else:
             action = student.act(obs)
         obs, reward, done, info = env.step(action)
+        total_reward += reward
         env.render()
-    print(f"Final score: {info['score']}")
+    print(f"Final score: {max(info['score'],total_reward)}")
