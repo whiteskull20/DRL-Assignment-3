@@ -157,7 +157,7 @@ def log_softmax(softmax_values):
 
 class RainbowDQN:
     def __init__(self, n_frames, action_size, gamma=0.99, tau=8000, capacity=10000, lr=0.00025, steps=10, batch_size=128, n_step=3, beta=0.4,learn_start=50000,num_atoms=51):
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu") 
+        self.device = torch.device("cpu") 
         
         self.n_frames = n_frames
         self.action_size = action_size
